@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:id="@+id/cvList"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivFlatImg"
+            android:layout_width="133dp"
+            android:layout_height="165dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/pic1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFlatAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Dhanmondi,Dhaka,Bangladesh"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/ivFlatImg"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivBed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="21dp"
+            android:src="@drawable/bed"
+            app:layout_constraintStart_toEndOf="@+id/ivFlatImg"
+            app:layout_constraintTop_toBottomOf="@+id/tvFlatAddress" />
+
+        <TextView
+            android:id="@+id/tvBed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="bed: "
+            app:layout_constraintBottom_toBottomOf="@+id/ivBed"
+            app:layout_constraintStart_toEndOf="@+id/ivBed"
+            app:layout_constraintTop_toTopOf="@+id/ivBed" />
+
+        <TextView
+            android:id="@+id/tvBedNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="3"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBed"
+            app:layout_constraintStart_toEndOf="@+id/tvBed"
+            app:layout_constraintTop_toTopOf="@+id/tvBed" />
+
+        <ImageView
+            android:id="@+id/ivBath"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBed"
+            app:layout_constraintStart_toEndOf="@+id/tvBedNumber"
+            app:layout_constraintTop_toTopOf="@+id/tvBed"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/bath" />
+
+        <TextView
+            android:id="@+id/tvBath"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="bath: "
+            app:layout_constraintBottom_toBottomOf="@+id/ivBath"
+            app:layout_constraintStart_toEndOf="@+id/ivBath"
+            app:layout_constraintTop_toTopOf="@+id/ivBath"
+            app:layout_constraintVertical_bias="0.347" />
+
+        <TextView
+            android:id="@+id/tvBathNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:text="2"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBath"
+            app:layout_constraintStart_toEndOf="@+id/tvBath"
+            app:layout_constraintTop_toTopOf="@+id/tvBath" />
+
+        <ImageView
+            android:id="@+id/ivRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvFlatTk"
+            app:layout_constraintStart_toStartOf="@+id/ivBed"
+            app:layout_constraintTop_toBottomOf="@+id/ivBed"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_square" />
+
+        <TextView
+            android:id="@+id/tvRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="sqft: "
+            app:layout_constraintBottom_toBottomOf="@+id/ivRoom"
+            app:layout_constraintStart_toEndOf="@+id/ivRoom"
+            app:layout_constraintTop_toTopOf="@+id/ivRoom" />
+
+        <TextView
+            android:id="@+id/tvSquareNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:text="1,530"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRoom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvRoom"
+            app:layout_constraintTop_toTopOf="@+id/tvRoom" />
+
+        <TextView
+            android:id="@+id/tvItemType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Apartment"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/ivRoom"
+            app:layout_constraintTop_toBottomOf="@+id/ivRoom" />
+
+        <TextView
+            android:id="@+id/tvFlatTk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="10dp"
+            android:text="BDT"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/ivRoom"
+            app:layout_constraintTop_toBottomOf="@+id/tvItemType"
+            app:layout_constraintVertical_bias="0.89" />
+
+        <TextView
+            android:id="@+id/tvFlatPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="5dp"
+            android:text="27 Thousand"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvFlatTk"
+            app:layout_constraintStart_toEndOf="@+id/tvFlatTk"
+            app:layout_constraintTop_toTopOf="@+id/tvFlatTk" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

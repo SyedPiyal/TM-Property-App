@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_my_list"
+        android:name="com.piyal.tmproperty.ui.mylist.MyListFragment"
+        android:label="@string/menu_my_list"
+        tools:layout="@layout/fragment_my_list" />
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.piyal.tmproperty.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_add_property"
+        android:name="com.piyal.tmproperty.ui.addproperty.AddPropertyFragment"
+        android:label="@string/menu_add_property"
+        tools:layout="@layout/fragment_add_property" />
+
+    <fragment
+        android:id="@+id/nav_favorites"
+        android:name="com.piyal.tmproperty.ui.favorites.FavoritesFragment"
+        android:label="@string/menu_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/nav_about_us"
+        android:name="com.piyal.tmproperty.ui.about_us.AboutUsFragment"
+        android:label="@string/menu_about_us"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/nav_contact_us"
+        android:name="com.piyal.tmproperty.ui.contact_us.ContactUsFragment"
+        android:label="@string/menu_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
+
+    <fragment
+        android:id="@+id/nav_logOut"
+        android:name="com.piyal.tmproperty.LogOutFragment"
+        android:label="@string/menu_logout"
+        tools:layout="@layout/fragment_log_out" />
+
+    <fragment
+        android:id="@+id/nav_user"
+        android:name="com.piyal.tmproperty.ui.user.UserProfileFragment"
+        android:label="@string/menu_user"
+        tools:layout="@layout/fragment_user_profile" />
+</navigation>
