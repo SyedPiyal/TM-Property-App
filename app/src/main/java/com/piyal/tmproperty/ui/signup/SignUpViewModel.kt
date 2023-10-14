@@ -11,11 +11,11 @@ import com.piyal.tmproperty.util.UiState
 import kotlinx.coroutines.launch
 
 
-
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
+class SignUpViewModel @Inject constructor(private val userRepository: UserRepository) :
+    ViewModel() {
 
     private val _signUpState = MutableLiveData<UiState<Unit>>()
     val signUpState: LiveData<UiState<Unit>> get() = _signUpState

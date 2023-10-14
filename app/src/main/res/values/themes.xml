@@ -7,6 +7,9 @@
 
     <style name="Theme.TMProperty" parent="Base.Theme.TMProperty" />
 
+    <style name="Theme.TmProperty.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.TmProperty.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="LoginTextInputOuterFieldStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

@@ -1,8 +1,11 @@
 package com.piyal.tmproperty.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.piyal.tmproperty.R
 import com.piyal.tmproperty.data.Property
 
 class FeaturedPropertyAdapter(
@@ -12,8 +15,8 @@ class FeaturedPropertyAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeaturedPropertyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ListItemFeaturedPropertyBinding.inflate(inflater, parent, false)
-        return FeaturedPropertyViewHolder(binding)
+        val view = inflater.inflate(R.layout.item_view, parent, false)
+        return FeaturedPropertyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: FeaturedPropertyViewHolder, position: Int) {
@@ -28,13 +31,17 @@ class FeaturedPropertyAdapter(
         notifyDataSetChanged()
     }
 
-    inner class FeaturedPropertyViewHolder(private val binding: ListItemFeaturedPropertyBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class FeaturedPropertyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val titleTextView: TextView = itemView.findViewById(R.id.tvTitle)
+        private val addressTextView: TextView = itemView.findViewById(R.id.tvAddresstxt)
+        private val priceTextView: TextView = itemView.findViewById(R.id.tvItemFltPrice)
 
         fun bind(property: Property) {
-            binding.property = property
-            binding.root.setOnClickListener { itemClickListener.invoke(property) }
-            binding.executePendingBindings()
+            titleTextView.text = property.titleitm
+            addressTextView.text = property.addressitm
+            priceTextView.text = property.tvPrice
+
+            itemView.setOnClickListener { itemClickListener.invoke(property) }
         }
     }
 }

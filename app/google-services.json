@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "940462192079",
+    "project_id": "tm-property-843ce",
+    "storage_bucket": "tm-property-843ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940462192079:android:fa2ce80dce5804db550eba",
+        "android_client_info": {
+          "package_name": "com.piyal.tmproperty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940462192079-ekpnnb5a1eqkj8tj87l61u082uin04ht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBri1xG_FJFAtVvHLAdVT42aCsc1HQmtIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940462192079-ekpnnb5a1eqkj8tj87l61u082uin04ht.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

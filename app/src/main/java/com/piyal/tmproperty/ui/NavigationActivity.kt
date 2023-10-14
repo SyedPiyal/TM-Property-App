@@ -38,7 +38,6 @@ class NavigationActivity : AppCompatActivity() {
         //setTransparentToolbar()
 
 
-
         /*binding.appBarNavigation.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -52,7 +51,7 @@ class NavigationActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_home, R.id.nav_add_property, R.id.nav_my_list,
                 R.id.nav_favorites, R.id.nav_about_us, R.id.nav_contact_us,
-                R.id.nav_logOut,R.id.nav_user
+                R.id.nav_logOut, R.id.nav_user
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -74,7 +73,6 @@ class NavigationActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_navigation)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
 
 
 }

@@ -37,8 +37,8 @@ class PropertyAdapter(
 
         fun bind(property: Property) {
 
-            addressTextView.text = property.address
-            priceTextView.text = property.price
+            addressTextView.text = property.addressitm
+            priceTextView.text = property.tvPrice
 
             itemView.setOnClickListener { itemClickListener.invoke(property) }
         }

@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val propertyRepository: PropertyRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(private val propertyRepository: PropertyRepository) :
+    ViewModel() {
 
     private val _propertyState = MutableLiveData<UiState<List<Property>>>()
     val propertyState: LiveData<UiState<List<Property>>> get() = _propertyState

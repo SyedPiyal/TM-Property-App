@@ -59,6 +59,7 @@ class HomeFragment : Fragment() {
                     hideLoading()
                     propertyAdapter.updateProperties(state.data)
                 }
+
                 is UiState.Failure -> {
                     hideLoading()
                     // Handle error state for regular properties
@@ -73,6 +74,7 @@ class HomeFragment : Fragment() {
                     hideLoading()
                     featuredPropertyAdapter.updateProperties(state.data)
                 }
+
                 is UiState.Failure -> {
                     hideLoading()
                     // Handle error state for featured properties

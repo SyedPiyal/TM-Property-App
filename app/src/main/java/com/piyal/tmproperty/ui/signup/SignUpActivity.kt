@@ -11,8 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.viewModels
 
 
-
-
 @AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
 
