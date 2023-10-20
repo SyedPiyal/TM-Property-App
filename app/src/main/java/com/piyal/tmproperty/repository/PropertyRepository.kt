@@ -3,6 +3,7 @@ package com.piyal.tmproperty.repository
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.denzcoskun.imageslider.models.SlideModel
 import com.piyal.tmproperty.data.Property
 import com.piyal.tmproperty.data.PropertyData
 import com.piyal.tmproperty.util.UiState
@@ -19,9 +20,9 @@ class PropertyRepository @Inject constructor(private val propertyService: Proper
         }
     }
 
-    suspend fun getFeaturedProperties(): UiState<List<Property>> {
+    suspend fun getFeaturedProperties(types: List<String>): UiState<List<Property>> {
         return try {
-            val featuredProperties = propertyService.getFeaturedProperties()
+            val featuredProperties = propertyService.getFeaturedProperties(types)
             UiState.Success(featuredProperties)
         } catch (e: Exception) {
             UiState.Failure(e.message)
@@ -44,10 +45,19 @@ class PropertyRepository @Inject constructor(private val propertyService: Proper
             UiState.Failure(e.message)
         }
     }
-    suspend fun getPropertiesForUser(userId: String): UiState<List<Property>> {
+    suspend fun getMyList(userId: String): UiState<List<Property>> {
         return try {
-            val properties = propertyService.getPropertiesForUser(userId)
-            UiState.Success(properties)
+            val myList = propertyService.getPropertiesForUser(userId)
+            UiState.Success(myList)
+        } catch (e: Exception) {
+            UiState.Failure(e.message)
+        }
+    }
+
+    suspend fun getImageSliderData(): UiState<List<SlideModel>> {
+        return try {
+            val sliderData = propertyService.getImageSliderData()
+            UiState.Success(sliderData)
         } catch (e: Exception) {
             UiState.Failure(e.message)
         }

@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.denzcoskun.imageslider.ImageSlider
 import com.piyal.tmproperty.adapters.FeaturedPropertyAdapter
 import com.piyal.tmproperty.adapters.PropertyAdapter
 import com.piyal.tmproperty.databinding.FragmentHomeBinding
@@ -24,6 +27,7 @@ class HomeFragment : Fragment() {
     private lateinit var propertyAdapter: PropertyAdapter
     private lateinit var featuredPropertyAdapter: FeaturedPropertyAdapter
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,6 +35,8 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val imageSlider: ImageSlider = binding.imageSlider
 
         // Initialize propertyAdapter for regular properties
         propertyAdapter = PropertyAdapter(emptyList()) { property ->
@@ -43,7 +49,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.rvFeatured.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
             adapter = propertyAdapter
         }
 
@@ -82,8 +88,70 @@ class HomeFragment : Fragment() {
             }
         }
 
+
+
+        viewModel.imageSliderState.observe(viewLifecycleOwner) { sliderState ->
+            when (sliderState) {
+                is UiState.Loading -> showLoading()
+                is UiState.Success -> {
+                    val sliderData = sliderState.data
+                    // Update the image slider with the fetched data
+                    imageSlider.setImageList(sliderData)
+                }
+                is UiState.Failure -> hideLoading()
+            }
+        }
+
+        viewModel.loadImageSliderData()// Load image slider data when fragment is created
+
+
         viewModel.loadProperties() // Load regular properties when fragment is created
         viewModel.loadFeaturedProperties() // Load featured properties when fragment is created
+
+        binding.btnHouse.setOnClickListener {
+            viewModel.navigateToHouseActivity(requireContext())
+        }
+
+        binding.btnApartment.setOnClickListener {
+            viewModel.navigateToApartmentActivity(requireContext())
+        }
+
+        binding.btnPlot.setOnClickListener {
+            viewModel.navigateToPlotActivity(requireContext())
+        }
+
+        binding.tvFListSee.setOnClickListener {
+            viewModel.navigateToProjectListActivity(requireContext())
+        }
+
+        binding.tvFeatured.setOnClickListener {
+            viewModel.navigateToFeaturedListActivity(requireContext())
+        }
+
+        binding.searchIcon.setOnClickListener {
+            val searchCriteria = binding.edSearch.text.toString().trim()
+            viewModel.setSearchQuery(searchCriteria)
+        }
+
+        binding.edSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val searchCriteria = binding.edSearch.text.toString().trim()
+                viewModel.setSearchQuery(searchCriteria)
+                true
+            } else {
+                false
+            }
+        }
+
+        // Observe search query changes and navigate to SearchActivity
+        viewModel.searchQuery.observe(viewLifecycleOwner) { searchQuery ->
+            if (searchQuery.isNotEmpty()) {
+                viewModel.navigateToSearchActivity(requireContext(), searchQuery)
+            } else {
+                Toast.makeText(requireContext(), "Please enter a search term.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
         return root
     }

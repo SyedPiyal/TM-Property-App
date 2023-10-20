@@ -1,19 +1,15 @@
 package com.piyal.tmproperty.ui.logout
 
 
-import android.content.Context
+
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import com.piyal.tmproperty.databinding.FragmentLogOutBinding
 import com.piyal.tmproperty.ui.login.LoginActivity
 import com.piyal.tmproperty.util.UiState
@@ -27,7 +23,7 @@ class LogOutFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val binding = FragmentLogOutBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -44,7 +40,7 @@ class LogOutFragment : Fragment() {
             }
             .show()
 
-        viewModel.logoutStatus.observe(viewLifecycleOwner) { state ->
+        viewModel.logoutState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
                     // Show loading UI if needed

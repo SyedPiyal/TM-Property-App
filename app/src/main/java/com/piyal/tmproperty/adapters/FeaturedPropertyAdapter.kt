@@ -3,8 +3,10 @@ package com.piyal.tmproperty.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.piyal.tmproperty.R
 import com.piyal.tmproperty.data.Property
 
@@ -35,11 +37,28 @@ class FeaturedPropertyAdapter(
         private val titleTextView: TextView = itemView.findViewById(R.id.tvTitle)
         private val addressTextView: TextView = itemView.findViewById(R.id.tvAddresstxt)
         private val priceTextView: TextView = itemView.findViewById(R.id.tvItemFltPrice)
+        private val markerImage: ImageView = itemView.findViewById(R.id.imgMarker)
+        private val itemviewimage: ImageView = itemView.findViewById(R.id.itemimg)
+        private val tvTaka: TextView = itemView.findViewById(R.id.tvBDT)
 
         fun bind(property: Property) {
             titleTextView.text = property.titleitm
             addressTextView.text = property.addressitm
             priceTextView.text = property.tvPrice
+            tvTaka.text = property.taka
+            markerImage.setImageResource(property.imgBath)
+
+            if (property.imageUrls.isNotEmpty()) {
+                Glide.with(itemView.context)
+                    .load(property.imageUrls[0]) // Load the first image URL from the list
+                    //.placeholder(R.drawable.placeholder) // Placeholder image while loading (optional)
+                    .error(R.drawable.error_image) // Error image if loading fails (optional)
+                    .into(itemviewimage)
+            } else {
+                // Handle the case where there are no image URLs in the list
+                // You can set a default image or hide the ImageView, etc.
+                itemviewimage.setImageResource(R.drawable.pic1)
+            }
 
             itemView.setOnClickListener { itemClickListener.invoke(property) }
         }

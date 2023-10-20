@@ -3,11 +3,14 @@ package com.piyal.tmproperty.repository
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.piyal.tmproperty.R
 import com.piyal.tmproperty.data.Property
 import com.piyal.tmproperty.data.PropertyData
+
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -15,7 +18,7 @@ import java.util.UUID
 
 class PropertyService(private val firestore: FirebaseFirestore) {
 
-    suspend fun getProperties(): List<Property> {
+   /* suspend fun getProperties(): List<Property> {
         return getPropertiesFromCollection("Properties", emptyList())
     }
 
@@ -78,7 +81,220 @@ class PropertyService(private val firestore: FirebaseFirestore) {
         }
 
         return propertiesList
-    }
+    }*/
+
+
+
+       /* suspend fun getProperties(): UiState<List<Property>> {
+            return try {
+                val querySnapshot = firestore.collection("Properties")
+                    .get().await()
+
+                val propertiesList = mutableListOf<Property>()
+
+                for (document in querySnapshot.documents) {
+                    val imageUrlList = document.get("imageUrls") as? List<String>
+                    val imageUrl = imageUrlList?.firstOrNull()
+                    val titleBed = "Bed:"
+                    val titleBedNumber = document.getString("bed") ?: ""
+                    val titleBath = "Bath:"
+                    val titleBathNumber = document.getString("bath") ?: ""
+                    val titleSquare = "Sqft:"
+                    val titleSquareNumber = document.getString("square") ?: ""
+                    val addressitm = document.getString("location") ?: ""
+                    val itemType = document.getString("type") ?: ""
+                    val taka = "BDT"
+                    val tvPrice = document.getString("price") ?: ""
+                    val imgBed = R.drawable.ic_bedd
+                    val imgBath = R.drawable.ic_bath
+                    val imgSqure = R.drawable.ic_square
+                    val userId = document.getString("userId") ?: ""
+                    val postId = document.id
+                    val titleitm = document.getString("title") ?: ""
+                    val purpose = document.getString("purpose") ?: ""
+                    val description = document.getString("description") ?: ""
+                    val contact = document.getString("contact") ?: ""
+                    val postedDateTime = document.getString("postedDateTime") ?: ""
+
+                    imageUrl?.let {
+                        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(it)
+                        val property = Property(
+                            titleBed, titleBedNumber, titleBath, titleBathNumber, titleSquare,
+                            titleSquareNumber, addressitm, itemType, taka, tvPrice, storageRef,
+                            imgBed, imgBath, imgSqure, userId, postId, titleitm, purpose,
+                            description, contact, postedDateTime, imageUrlList.orEmpty()
+                        )
+                        propertiesList.add(property)
+                    }
+                }
+
+                UiState.Success(propertiesList)
+            } catch (e: Exception) {
+                UiState.Failure(e.message)
+            }
+        }
+
+        suspend fun getFeaturedProperties(): UiState<List<Property>> {
+            return try {
+                val querySnapshot = firestore.collection("Properties")
+                    .whereIn("type", listOf("project", "New Project", "new project", "Project", "New project"))
+                    .get().await()
+
+                val featuredPropertiesList = mutableListOf<Property>()
+
+                for (document in querySnapshot.documents) {
+                    val imageUrlList = document.get("imageUrls") as? List<String>
+                    val imageUrl = imageUrlList?.firstOrNull()
+                    val titleBed = "Bed:"
+                    val titleBedNumber = document.getString("bed") ?: ""
+                    val titleBath = "Bath:"
+                    val titleBathNumber = document.getString("bath") ?: ""
+                    val titleSquare = "Sqft:"
+                    val titleSquareNumber = document.getString("square") ?: ""
+                    val addressitm = document.getString("location") ?: ""
+                    val itemType = document.getString("type") ?: ""
+                    val taka = "BDT"
+                    val tvPrice = document.getString("price") ?: ""
+                    val imgBed = R.drawable.ic_bedd
+                    val imgBath = R.drawable.ic_bath
+                    val imgSqure = R.drawable.ic_square
+                    val userId = document.getString("userId") ?: ""
+                    val postId = document.id
+                    val titleitm = document.getString("title") ?: ""
+                    val purpose = document.getString("purpose") ?: ""
+                    val description = document.getString("description") ?: ""
+                    val contact = document.getString("contact") ?: ""
+                    val postedDateTime = document.getString("postedDateTime") ?: ""
+
+                    imageUrl?.let {
+                        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(it)
+                        val property = Property(
+                            titleBed, titleBedNumber, titleBath, titleBathNumber, titleSquare,
+                            titleSquareNumber, addressitm, itemType, taka, tvPrice, storageRef,
+                            imgBed, imgBath, imgSqure, userId, postId, titleitm, purpose,
+                            description, contact, postedDateTime, imageUrlList.orEmpty()
+                        )
+
+                    featuredPropertiesList.add(property)
+                }
+                }
+
+                UiState.Success(featuredPropertiesList)
+            } catch (e: Exception) {
+                UiState.Failure(e.message)
+            }
+        }*/
+
+
+
+
+
+        suspend fun getProperties(): List<Property> {
+            return try {
+                val querySnapshot = firestore.collection("Properties")
+                    .get().await()
+
+                val propertiesList = mutableListOf<Property>()
+
+                for (document in querySnapshot.documents) {
+                    val imageUrlList = document.get("imageUrls") as? List<String>
+                    val imageUrl = imageUrlList?.firstOrNull()
+                    val titleBed = "Bed:"
+                    val titleBedNumber = document.getString("bed") ?: ""
+                    val titleBath = "Bath:"
+                    val titleBathNumber = document.getString("bath") ?: ""
+                    val titleSquare = "Sqft:"
+                    val titleSquareNumber = document.getString("square") ?: ""
+                    val addressitm = document.getString("location") ?: ""
+                    val itemType = document.getString("type") ?: ""
+                    val taka = "BDT"
+                    val tvPrice = document.getString("price") ?: ""
+                    val imgBed = R.drawable.ic_bedd
+                    val imgBath = R.drawable.ic_bath
+                    val imgSqure = R.drawable.ic_square
+                    val userId = document.getString("userId") ?: ""
+                    val postId = document.id
+                    val titleitm = document.getString("title") ?: ""
+                    val purpose = document.getString("purpose") ?: ""
+                    val description = document.getString("description") ?: ""
+                    val contact = document.getString("contact") ?: ""
+                    val postedDateTime = document.getString("postedDateTime") ?: ""
+
+                    imageUrl?.let {
+                        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(it)
+                        val property = Property(
+                            titleBed, titleBedNumber, titleBath, titleBathNumber, titleSquare,
+                            titleSquareNumber, addressitm, itemType, taka, tvPrice, storageRef,
+                            imgBed, imgBath, imgSqure, userId, postId, titleitm, purpose,
+                            description, contact, postedDateTime, imageUrlList
+                        )
+                        propertiesList.add(property)
+                    }
+                }
+
+                propertiesList
+            } catch (e: Exception) {
+                // Handle exceptions here
+                e.printStackTrace()
+                emptyList() // Return an empty list in case of an error
+            }
+        }
+
+        suspend fun getFeaturedProperties(types: List<String>): List<Property> {
+            return try {
+                val querySnapshot = firestore.collection("Properties")
+                    .whereIn("type",types)
+                    .get().await()
+
+                val featuredPropertiesList = mutableListOf<Property>()
+
+                for (document in querySnapshot.documents) {
+                    val imageUrlList = document.get("imageUrls") as? List<String>
+                    val imageUrl = imageUrlList?.firstOrNull()
+                    val titleBed = "Bed:"
+                    val titleBedNumber = document.getString("bed") ?: ""
+                    val titleBath = "Bath:"
+                    val titleBathNumber = document.getString("bath") ?: ""
+                    val titleSquare = "Sqft:"
+                    val titleSquareNumber = document.getString("square") ?: ""
+                    val addressitm = document.getString("location") ?: ""
+                    val itemType = document.getString("type") ?: ""
+                    val taka = "BDT"
+                    val tvPrice = document.getString("price") ?: ""
+                    val imgBed = R.drawable.ic_bedd
+                    val imgBath = R.drawable.ic_bath
+                    val imgSqure = R.drawable.ic_square
+                    val userId = document.getString("userId") ?: ""
+                    val postId = document.id
+                    val titleitm = document.getString("title") ?: ""
+                    val purpose = document.getString("purpose") ?: ""
+                    val description = document.getString("description") ?: ""
+                    val contact = document.getString("contact") ?: ""
+                    val postedDateTime = document.getString("postedDateTime") ?: ""
+
+                    imageUrl?.let {
+                        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(it)
+                        val property = Property(
+                            titleBed, titleBedNumber, titleBath, titleBathNumber, titleSquare,
+                            titleSquareNumber, addressitm, itemType, taka, tvPrice, storageRef,
+                            imgBed, imgBath, imgSqure, userId, postId, titleitm, purpose,
+                            description, contact, postedDateTime, imageUrlList.orEmpty()
+                        )
+                        featuredPropertiesList.add(property)
+                    }
+                }
+
+                featuredPropertiesList
+            } catch (e: Exception) {
+                // Handle exceptions here
+                e.printStackTrace()
+                emptyList() // Return an empty list in case of an error
+            }
+        }
+
+
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun addProperty(propertyData: PropertyData, selectedImages: List<Uri>) {
@@ -176,7 +392,7 @@ class PropertyService(private val firestore: FirebaseFirestore) {
                         titleBed, titleBedNumber, titleBath, titleBathNumber, titleSquare,
                         titleSquareNumber, addressitm, itemType, taka, tvPrice, storageRef,
                         imgBed, imgBath, imgSqure, userId, postId, titleitm, purpose,
-                        description, contact, postedDateTime, imageUrlList.orEmpty()
+                        description, contact, postedDateTime, imageUrlList
                     )
                     favoritePropertiesList.add(property)
                 }
@@ -228,7 +444,7 @@ class PropertyService(private val firestore: FirebaseFirestore) {
                             titleBed, titleBedNumber, titleBath, titleBathNumber, titleSquare,
                             titleSquareNumber, addressitm, itemType, taka, tvPrice, storageRef,
                             imgBed, imgBath, imgSqure, userId, postId, titleitm, purpose,
-                            description, contact, postedDateTime, imageUrlList.orEmpty()
+                            description, contact, postedDateTime, imageUrlList
                         )
                         propertiesList.add(property)
                     }
@@ -242,6 +458,16 @@ class PropertyService(private val firestore: FirebaseFirestore) {
         }
 
 
+    suspend fun getImageSliderData(): List<SlideModel> {
+        // Hardcoded data for the image slider
+        return listOf(
+            SlideModel(R.drawable.forest_house, "Property in Dhaka", ScaleTypes.FIT),
+            SlideModel(R.drawable.home_ban, "Property in Barishal", ScaleTypes.FIT),
+            SlideModel(R.drawable.reso, "Property in Chattogram", ScaleTypes.FIT),
+            SlideModel(R.drawable.image, "Property in Khulna", ScaleTypes.FIT),
+            SlideModel(R.drawable.machan, "Property in Rajshahi", ScaleTypes.FIT)
+        )
+    }
 
 }
 

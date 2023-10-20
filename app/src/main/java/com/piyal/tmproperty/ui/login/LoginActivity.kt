@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.loginState.observe(this) { state ->
+        /*viewModel.loginState.observe(this) { state ->
             when (state) {
                 is UiState.Loading -> showLoading()
                 is UiState.Success -> {
@@ -71,7 +71,28 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Login Failed: ${state.error}", Toast.LENGTH_SHORT).show()
                 }
             }
+        }*/
+        viewModel.loginState.observe(this) { state ->
+            when (state) {
+                is UiState.Loading -> showLoading()
+                is UiState.Success -> {
+                    hideLoading()
+                    // Proceed to the main activity
+                    val intent = Intent(this, NavigationActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("isLoggedIn", true)
+                    editor.apply()
+                }
+
+                is UiState.Failure -> {
+                    hideLoading()
+                    Toast.makeText(this, "Login Failed: ${state.error}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
+
     }
 
     private fun showLoading() {

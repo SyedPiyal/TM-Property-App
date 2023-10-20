@@ -18,13 +18,12 @@ class MyListViewModel @Inject constructor(private val propertyRepository: Proper
     private val _myListState = MutableLiveData<UiState<List<Property>>>()
     val myListState: LiveData<UiState<List<Property>>> get() = _myListState
 
-
     fun loadMyList(userId: String) {
         viewModelScope.launch {
             _myListState.value = UiState.Loading
             try {
-                val myList = propertyRepository.getMyList(userId)
-                _myListState.value = UiState.Success(myList)
+                val result = propertyRepository.getMyList(userId)
+                _myListState.value = result
             } catch (e: Exception) {
                 _myListState.value = UiState.Failure(e.message)
             }
