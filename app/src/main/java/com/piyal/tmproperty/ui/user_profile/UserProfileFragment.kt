@@ -1,4 +1,4 @@
-package com.piyal.tmproperty.ui.user
+package com.piyal.tmproperty.ui.user_profile
 
 
 import android.os.Bundle

@@ -19,134 +19,100 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.piyal.tmproperty.adapters.ImageAdapter
 import com.piyal.tmproperty.data.PropertyData
 import com.piyal.tmproperty.util.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 @AndroidEntryPoint
 class AddPropertyFragment : Fragment() {
 
     private val viewModel: AddPropertyViewModel by viewModels()
-    private var _binding: FragmentAddPropertyBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentAddPropertyBinding
 
-    private val selectedImages: MutableList<Uri> = mutableListOf()
-
-    companion object {
-        val IMAGE_REQUEST_CODE = 1_000;
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddPropertyBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        initialView()
-        return root
+        binding = FragmentAddPropertyBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun initialView() {
-        // Setup UI components and click listeners
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Handle image picking and permissions
+        viewModel.handleImagePicking(this)
+
+        // Observe selected images LiveData for updates
+        viewModel.selectedImages.observe(viewLifecycleOwner) { selectedImages ->
+            // Update UI or perform actions based on selectedImages
+        }
+
+        // Observe permission granted LiveData for updates
+        viewModel.permissionGranted.observe(viewLifecycleOwner) { isGranted ->
+            if (isGranted) {
+                // Permission granted, handle UI interactions or perform actions if needed
+            } else {
+                // Permission denied, handle UI interactions or show error message
+            }
+        }
 
         binding.btnAdd.setOnClickListener {
-            // Extract data from UI fields
-            val propertyData = PropertyData(
-                type = binding.etType.text.toString().trim(),
-                purpose = binding.etPurpose.text.toString().trim(),
-                price = binding.etPrice.text.toString().trim(),
-                bed = binding.etBed.text.toString().trim(),
-                bath = binding.etBath.text.toString().trim(),
-                square = binding.etSquere.text.toString().trim(),
-                location = binding.etLocation.text.toString().trim(),
-                title = binding.etTitle.text.toString().trim(),
-                description = binding.etDescription.text.toString().trim(),
-                contact = binding.etContact.text.toString().trim()
-                // ... (add other fields as needed)
-            )
+            // Get property details from UI input fields
+            val type = binding.etType.text.toString().trim()
+            val purpose = binding.etPurpose.text.toString().trim()
+            val price = binding.etPrice.text.toString().trim()
+            val bed = binding.etBed.text.toString().trim()
+            val bath = binding.etBath.text.toString().trim()
+            val square = binding.etSquere.text.toString().trim()
+            val location = binding.etLocation.text.toString().trim()
+            val title = binding.etTitle.text.toString().trim()
+            val description = binding.etDescription.text.toString().trim()
+            val contact = binding.etContact.text.toString().trim()
 
-            // Validate and add property
-            viewModel.addProperty(propertyData, selectedImages)
-            observePropertyState()
-        }
+            // Check if any of the fields are empty
+            if (type.isNotEmpty() && purpose.isNotEmpty() && price.isNotEmpty() && bed.isNotEmpty() && bath.isNotEmpty()
+                && square.isNotEmpty() && location.isNotEmpty() && title.isNotEmpty() && description.isNotEmpty()
+                && contact.isNotEmpty()
+            ) {
+                // obtain the current user's ID if needed
+                val currentUser = FirebaseAuth.getInstance().currentUser?.uid
 
-        // Handle image picker and permission logic
-        binding.btnAddImage.setOnClickListener {
-            checkPermissionAndOpenImagePicker()
-        }
+                // Get the current date and time
+                val currentDateTime = LocalDateTime.now()
+                val formatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a")
+                val formattedDateTime = currentDateTime.format(formatter)
 
-        // Setup RecyclerView adapter for selected images
-        val recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = ImageAdapter(selectedImages)
-    }
+                // Create PropertyData object
+                val propertyData = PropertyData(
+                    type, purpose, price, bed, bath, square, location, title, description, contact,
+                    currentUser ?: "", formattedDateTime, viewModel.selectedImages.value.orEmpty().map { it.toString() }
+                )
 
-    private fun checkPermissionAndOpenImagePicker() {
-        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-        val permissionGranted = PackageManager.PERMISSION_GRANTED
-
-        if (ContextCompat.checkSelfPermission(requireContext(), permission) == permissionGranted) {
-            openImagePicker()
-        } else {
-            requestPermissionLauncher.launch(permission)
-        }
-    }
-
-    private fun openImagePicker() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        startActivityForResult(Intent.createChooser(intent, "Select Pictures"), IMAGE_REQUEST_CODE)
-    }
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                openImagePicker()
+                // Add property using ViewModel
+                viewModel.addProperty(propertyData)
             } else {
-                // Permission denied, handle accordingly
-                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please fill in all the fields", Toast.LENGTH_SHORT).show()
             }
         }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            if (data?.clipData != null) {
-                val clipData = data.clipData
-                for (i in 0 until clipData?.itemCount!!) {
-                    val imageUri = clipData?.getItemAt(i)!!.uri
-                    selectedImages.add(imageUri)
-                }
-            } else if (data?.data != null) {
-                val imageUri = data.data
-                imageUri?.let { selectedImages.add(it) }
-            }
-
-            // Notify the RecyclerView adapter about the data change
-            binding.recyclerView.adapter?.notifyDataSetChanged()
-        }
-    }
-
-
-
-    private fun observePropertyState() {
-        viewModel.propertyState.observe(viewLifecycleOwner) { state ->
+        viewModel.propertyAdded.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> showLoading()
                 is UiState.Success -> {
                     hideLoading()
-                    // Handle success, navigate to another screen if needed, show a success message, etc.
+                    // Handle success state
                 }
                 is UiState.Failure -> {
                     hideLoading()
-                    // Handle failure, show an error message, etc.
+                    // Handle failure state
+                    Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -160,11 +126,10 @@ class AddPropertyFragment : Fragment() {
         // Hide loading UI if needed
     }
 
-    // Handle image picker and permission request logic (not shown for brevity)
-
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        // Clean up resources, if any
     }
 }
+
 

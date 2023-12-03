@@ -1,8 +1,7 @@
 package com.piyal.tmproperty.repository
 
+
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.denzcoskun.imageslider.models.SlideModel
 import com.piyal.tmproperty.data.Property
 import com.piyal.tmproperty.data.PropertyData
@@ -28,13 +27,12 @@ class PropertyRepository @Inject constructor(private val propertyService: Proper
             UiState.Failure(e.message)
         }
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun addProperty(propertyData: PropertyData, selectedImages: List<Uri>): UiState<Unit> {
+    suspend fun addProperty(propertyData: PropertyData): UiState<Boolean> {
         return try {
-            propertyService.addProperty(propertyData, selectedImages)
-            UiState.Success(Unit)
+            propertyService.addProperty(propertyData)
+            UiState.Success(true)
         } catch (e: Exception) {
-            UiState.Failure(e.message)
+            UiState.Failure(e.message ?: "Failed to add property")
         }
     }
     suspend fun getFavoriteProperties(userId: String): UiState<List<Property>> {
@@ -54,12 +52,38 @@ class PropertyRepository @Inject constructor(private val propertyService: Proper
         }
     }
 
-    suspend fun getImageSliderData(): UiState<List<SlideModel>> {
+     fun getImageSliderData(): UiState<List<SlideModel>> {
         return try {
             val sliderData = propertyService.getImageSliderData()
             UiState.Success(sliderData)
         } catch (e: Exception) {
             UiState.Failure(e.message)
+        }
+    }
+
+    suspend fun getPostData(postId: String): PropertyData {
+        return propertyService.getPostData(postId)
+    }
+
+    suspend fun updatePost(
+        postId: String,
+        type: String,
+        purpose: String,
+        price: String,
+        bed: String,
+        bath: String,
+        square: String,
+        location: String,
+        title: String,
+        description: String,
+        contact: String,
+        imageUris: List<Uri>
+    ): UiState<Boolean> {
+        return try {
+            propertyService.updatePost(postId, type, purpose, price, bed, bath, square, location, title, description, contact, imageUris)
+            UiState.Success(true)
+        } catch (e: Exception) {
+            UiState.Failure(e.message ?: "Failed to update property")
         }
     }
 

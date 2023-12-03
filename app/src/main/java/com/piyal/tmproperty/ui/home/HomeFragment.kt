@@ -1,6 +1,7 @@
 package com.piyal.tmproperty.ui.home
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.denzcoskun.imageslider.ImageSlider
 import com.piyal.tmproperty.adapters.FeaturedPropertyAdapter
 import com.piyal.tmproperty.adapters.PropertyAdapter
 import com.piyal.tmproperty.databinding.FragmentHomeBinding
+import com.piyal.tmproperty.ui.details_activity.DetailsActivity
 import com.piyal.tmproperty.util.UiState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +43,8 @@ class HomeFragment : Fragment() {
         // Initialize propertyAdapter for regular properties
         propertyAdapter = PropertyAdapter(emptyList()) { property ->
             // Handle property item click here
+            // Handle item click, start DetailsActivity with selected property
+
         }
 
         // Initialize featuredPropertyAdapter for featured properties

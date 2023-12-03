@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.details_activity.DetailsActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnBack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@drawable/ic_back_arrow"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvPostedDateTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:text="Date and Time"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_details_Ttitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_details_Ttitle" />
+
+        <TextView
+            android:id="@+id/btnPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="19dp"
+            android:text="Previous"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewPager" />
+
+        <TextView
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:text="Next"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/btnPrevious"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnPrevious" />
+
+        <TextView
+            android:id="@+id/tvDetailsBdt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="BDT"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/tv_details_Ttitle"
+            app:layout_constraintTop_toBottomOf="@+id/tv_details_Ttitle" />
+
+        <TextView
+            android:id="@+id/tv_AmountDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="27 Thousand"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDetailsBdt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDetailsBdt"
+            app:layout_constraintTop_toTopOf="@+id/tvDetailsBdt" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/btnFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_AmountDetails"
+            app:layout_constraintEnd_toEndOf="@+id/tv_AmountDetails"
+            app:layout_constraintTop_toTopOf="@+id/tv_AmountDetails" />
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/btnUnFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_favoritess"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_AmountDetails"
+            app:layout_constraintEnd_toEndOf="@+id/tv_AmountDetails"
+            app:layout_constraintTop_toTopOf="@+id/tv_AmountDetails"/>
+
+        <ImageView
+            android:id="@+id/ivBedD"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="22dp"
+
+            android:src="@drawable/bed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailsBdt" />
+
+        <TextView
+            android:id="@+id/tvBedD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="bed: "
+            app:layout_constraintBottom_toBottomOf="@+id/ivBedD"
+            app:layout_constraintStart_toEndOf="@+id/ivBedD"
+            app:layout_constraintTop_toTopOf="@+id/ivBedD" />
+
+        <TextView
+            android:id="@+id/tvBedNumberD"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="3"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBedD"
+            app:layout_constraintStart_toEndOf="@+id/tvBedD"
+            app:layout_constraintTop_toTopOf="@+id/tvBedD" />
+
+        <ImageView
+            android:id="@+id/ivBathD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBedD"
+            app:layout_constraintStart_toEndOf="@+id/tvBedNumberD"
+            app:layout_constraintTop_toTopOf="@+id/tvBedD"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/bath" />
+
+        <TextView
+            android:id="@+id/tvBathD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="bath: "
+            app:layout_constraintBottom_toBottomOf="@+id/ivBathD"
+            app:layout_constraintStart_toEndOf="@+id/ivBathD"
+            app:layout_constraintTop_toTopOf="@+id/ivBathD"
+            app:layout_constraintVertical_bias="0.347" />
+
+        <TextView
+            android:id="@+id/tvBathNumberD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:text="2"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBathD"
+            app:layout_constraintStart_toEndOf="@+id/tvBathD"
+            app:layout_constraintTop_toTopOf="@+id/tvBathD" />
+
+        <ImageView
+            android:id="@+id/ivRoomD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBathNumberD"
+            app:layout_constraintStart_toEndOf="@+id/tvBathNumberD"
+            app:layout_constraintTop_toTopOf="@+id/tvBathNumberD"
+            app:srcCompat="@drawable/ic_square" />
+
+        <TextView
+            android:id="@+id/tvRoomD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="sqft: "
+            app:layout_constraintBottom_toBottomOf="@+id/ivRoomD"
+            app:layout_constraintStart_toEndOf="@+id/ivRoomD"
+            app:layout_constraintTop_toTopOf="@+id/ivRoomD" />
+
+        <TextView
+            android:id="@+id/tvSquareNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:text="1,530"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRoomD"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvRoomD"
+            app:layout_constraintTop_toTopOf="@+id/tvRoomD" />
+
+
+        <ImageView
+            android:id="@+id/iv_locationDetails"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="44dp"
+            android:src="@drawable/img_location"
+            app:layout_constraintStart_toStartOf="@+id/ivBedD"
+            app:layout_constraintTop_toBottomOf="@+id/ivBedD" />
+
+        <TextView
+            android:id="@+id/tv_locationDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="15dp"
+            android:text="Dhanmondi, Dhaka"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_locationDetails"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_locationDetails"
+            app:layout_constraintTop_toTopOf="@+id/iv_locationDetails" />
+
+        <TextView
+
+            android:id="@+id/tv_tittleDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="18dp"
+            android:text="@string/title"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_locationDetails" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_tittleDetails">
+
+            <TextView
+                android:id="@+id/tv_descriptionDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/tv_details_Ttitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Apartment"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/btnPrevious"
+            app:layout_constraintTop_toBottomOf="@+id/btnPrevious" />
+
+        <TextView
+            android:id="@+id/tv_details_purpose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Purpose :"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+        <TextView
+            android:id="@+id/tv_detalisPerpose_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="10dp"
+            android:text="For Rent"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_details_purpose"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_details_purpose"
+            app:layout_constraintTop_toTopOf="@+id/tv_details_purpose" />
+
+        <TextView
+            android:id="@+id/tv_details_contact"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
+            android:text="Contact Details :"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_details_purpose"
+            app:layout_constraintTop_toBottomOf="@+id/tv_details_purpose"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_detalisContact_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:text="Phone: +88011111111111"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_detalisPerpose_type"
+            app:layout_constraintStart_toStartOf="@+id/tv_detalisPerpose_type"
+            app:layout_constraintTop_toTopOf="@+id/tv_details_contact"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <Button
+            android:id="@+id/btnUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:text="Update"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_details_contact" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:text="Delete"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/btnUpdate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnUpdate"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.core.widget.NestedScrollView>

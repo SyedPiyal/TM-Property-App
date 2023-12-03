@@ -24,6 +24,11 @@ class PropertyAdapter(
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
         val property = properties[position]
         holder.bind(property)
+
+        // Set click listener
+        holder.itemView.setOnClickListener {
+            itemClickListener.invoke(property)
+        }
     }
 
     override fun getItemCount(): Int = properties.size

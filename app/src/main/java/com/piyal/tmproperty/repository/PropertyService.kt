@@ -5,6 +5,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.piyal.tmproperty.R
@@ -16,7 +18,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 
-class PropertyService(private val firestore: FirebaseFirestore) {
+class PropertyService(private val firestore: FirebaseFirestore, private val storage: FirebaseStorage) {
 
    /* suspend fun getProperties(): List<Property> {
         return getPropertiesFromCollection("Properties", emptyList())
@@ -294,61 +296,84 @@ class PropertyService(private val firestore: FirebaseFirestore) {
 
 
 
+        suspend fun addProperty(propertyData: PropertyData) {
+            // Convert PropertyData to a HashMap
+            val data = hashMapOf(
+                "type" to propertyData.type,
+                "purpose" to propertyData.purpose,
+                "price" to propertyData.price,
+                "bed" to propertyData.bed,
+                "bath" to propertyData.bath,
+                "square" to propertyData.square,
+                "location" to propertyData.location,
+                "title" to propertyData.title,
+                "description" to propertyData.description,
+                "contact" to propertyData.contact,
+                "userId" to propertyData.userId,
+                "postedDateTime" to propertyData.postedDateTime,
+                "imageUris" to propertyData.imageUris
+            )
 
+            // Add data to Firestore
+            val documentReference = firestore.collection("Properties").add(data).await()
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun addProperty(propertyData: PropertyData, selectedImages: List<Uri>) {
-        // Convert propertyData and selectedImages to the appropriate format for Firebase
-        // Example: Convert propertyData to HashMap, upload images to Firebase Storage,
-        // add download URLs to the propertyData HashMap, and then add the HashMap to Firestore.
+            // Upload images to Firebase Storage
+            propertyData.imageUris.forEach { imageUrl ->
+                val imageUri = Uri.parse(imageUrl)
+                val storageReference = storage.reference.child("uploads/${UUID.randomUUID()}")
+                val uploadTask = storageReference.putFile(imageUri)
 
-        // For example purposes, let's assume you have a function to upload images and get download URLs:
-        val downloadUrls = uploadImagesAndGetUrls(selectedImages)
+                //val uploadTask = storageReference.putFile(imageUri).await()
+                /*if (uploadTask.isSuccessful) {
+                    val downloadUrl = storageReference.downloadUrl.await().toString()
+                    // Update the image URLs in the Firestore document
+                    firestore.collection("Properties")
+                        .document(documentReference.id)
+                        .update("imageUris", FieldValue.arrayUnion(downloadUrl))
+                        .await()
+                } else {
+                    // Handle image upload failure
+                    throw Exception("Failed to upload images")
+                }*/
+               /* try {
+                    // Await the upload task completion and get the download URL
+                    val downloadUrl = storageReference.downloadUrl.await().toString()
 
-        val currentDateTime = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a")
-        val formattedDateTime = currentDateTime.format(formatter)
+                    // Update the image URLs in the Firestore document
+                    firestore.collection("Properties")
+                        .document(documentReference.id)
+                        .update("imageUris", FieldValue.arrayUnion(downloadUrl))
+                        .await()
+                } catch (e: Exception) {
+                    // Handle image upload failure
+                    throw Exception("Failed to upload images: ${e.message}")
+                }*/
 
-        val propertyMap = hashMapOf(
-            "type" to propertyData.type,
-            "purpose" to propertyData.purpose,
-            "price" to propertyData.price,
-            "bed" to propertyData.bed,
-            "bath" to propertyData.bath,
-            "square" to propertyData.square,
-            "location" to propertyData.location,
-            "title" to propertyData.title,
-            "description" to propertyData.description,
-            "contact" to propertyData.contact,
-            "imageUrls" to downloadUrls,
-            "postedDateTime" to formattedDateTime
-        )
-
-
-        // Add property data to Firestore
-        firestore.collection("Properties")
-            .add(propertyMap)
-            .await()
-    }
-
-    private suspend fun uploadImagesAndGetUrls(images: List<Uri>): List<String> {
-        // Upload images to Firebase Storage and return their download URLs
-        // Implement logic to upload images and get download URLs
-        // For example:
-        val downloadUrls = mutableListOf<String>()
-        for (imageUri in images) {
-            // Upload image to Firebase Storage and get its download URL
-            // Example code (replace with actual upload logic):
-            val storageReference =
-                FirebaseStorage.getInstance().reference.child("images/${UUID.randomUUID()}")
-            storageReference.putFile(imageUri).await()
-            val imageUrl = storageReference.downloadUrl.await().toString()
-
-            // Add download URL to the list
-            downloadUrls.add(imageUrl)
+                // Add a listener to the upload task
+                uploadTask.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // If upload is successful, get the download URL
+                        storageReference.downloadUrl.addOnSuccessListener { downloadUrl ->
+                            // Update the image URLs in the Firestore document
+                            firestore.collection("Properties")
+                                .document(documentReference.id)
+                                .update("imageUris", FieldValue.arrayUnion(downloadUrl.toString()))
+                                .addOnSuccessListener {
+                                    // Image URL updated successfully
+                                }
+                                .addOnFailureListener { e ->
+                                    // Handle failure in updating image URL
+                                }
+                        }
+                    } else {
+                        // Handle failure in uploading the image
+                        // You can access the exception using task.exception
+                    }
+                }
+            }
         }
-        return downloadUrls
-    }
+
+
 
 
     suspend fun getFavoritePropertiesFromFirestore(userId: String): List<Property> {
@@ -458,7 +483,7 @@ class PropertyService(private val firestore: FirebaseFirestore) {
         }
 
 
-    suspend fun getImageSliderData(): List<SlideModel> {
+     fun getImageSliderData(): List<SlideModel> {
         // Hardcoded data for the image slider
         return listOf(
             SlideModel(R.drawable.forest_house, "Property in Dhaka", ScaleTypes.FIT),
@@ -467,6 +492,36 @@ class PropertyService(private val firestore: FirebaseFirestore) {
             SlideModel(R.drawable.image, "Property in Khulna", ScaleTypes.FIT),
             SlideModel(R.drawable.machan, "Property in Rajshahi", ScaleTypes.FIT)
         )
+    }
+
+    suspend fun getPostData(postId: String): PropertyData {
+        return try {
+            val documentSnapshot = firestore.collection("Properties").document(postId).get().await()
+
+            if (documentSnapshot.exists()) {
+                val type = documentSnapshot.getString("type") ?: ""
+                val purpose = documentSnapshot.getString("purpose") ?: ""
+                val price = documentSnapshot.getString("price") ?: ""
+                val bed = documentSnapshot.getString("bed") ?: ""
+                val bath = documentSnapshot.getString("bath") ?: ""
+                val square = documentSnapshot.getString("square") ?: ""
+                val location = documentSnapshot.getString("location") ?: ""
+                val title = documentSnapshot.getString("title") ?: ""
+                val description = documentSnapshot.getString("description") ?: ""
+                val contact = documentSnapshot.getString("contact") ?: ""
+
+                // Retrieve and parse other properties as needed
+
+                PropertyData(type, purpose, price, bed, bath, square, location, title, description, contact, postId,postedDateTime,
+                    emptyList())
+            } else {
+                // Handle the case when the document does not exist
+                throw Exception("Property not found")
+            }
+        } catch (e: Exception) {
+            // Handle exceptions here
+            throw Exception("Failed to retrieve property data: ${e.message}")
+        }
     }
 
 }
