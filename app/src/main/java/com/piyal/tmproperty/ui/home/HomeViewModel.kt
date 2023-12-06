@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(private val propertyRepository: Property
 
     // Function to handle navigation to SearchActivity
     fun navigateToSearchActivity(context: Context, searchQuery: String) {
-        val trimmedQuery = searchQuery.trim()
+        /*val trimmedQuery = searchQuery.trim()
         if (trimmedQuery.isNotEmpty()) {
             val intent = Intent(context, SearchActivity::class.java).apply {
                 putExtra("searchCriteria", trimmedQuery)
@@ -91,6 +91,6 @@ class HomeViewModel @Inject constructor(private val propertyRepository: Property
             context.startActivity(intent)
         } else {
             Toast.makeText(context, "Please enter a search term.", Toast.LENGTH_SHORT).show()
-        }
+        }*/
     }
 }

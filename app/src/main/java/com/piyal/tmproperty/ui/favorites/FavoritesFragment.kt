@@ -10,7 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.piyal.tmproperty.adapters.PropertyAdapter
+import com.piyal.tmproperty.data.Property
 import com.piyal.tmproperty.databinding.FragmentFavoritesBinding
+import com.piyal.tmproperty.util.PropertyNavigationUtil
 import com.piyal.tmproperty.util.UiState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +25,7 @@ class FavoritesFragment : Fragment() {
     private val binding get() = _binding!!
     private val propertyAdapter = PropertyAdapter(emptyList()) { property ->
         // Handle favorite property item click here
+        openPropertyDetails(property)
     }
 
     override fun onCreateView(
@@ -36,6 +39,9 @@ class FavoritesFragment : Fragment() {
         val recyclerView = binding.rvFavoriteList
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = propertyAdapter
+
+
+        
 
         // Observe the favorites state and update the UI accordingly
         viewModel.favoritesState.observe(viewLifecycleOwner) { state ->
@@ -68,6 +74,29 @@ class FavoritesFragment : Fragment() {
 
     private fun hideLoading() {
         // Hide loading UI if needed
+    }
+    private fun openPropertyDetails(property: Property) {
+        // Handle navigation to property details activity here
+        /*val intent = Intent(this, DetailsActivity::class.java).apply {
+            // Pass property details to DetailsActivity
+            putExtra("bed", property.titleBedNumber)
+            putExtra("bath", property.titleBathNumber)
+            putExtra("square", property.titleSquareNumber)
+            putExtra("address", property.addressitm)
+            putExtra("type", property.itemType)
+            putExtra("price", property.tvPrice)
+            putExtra("userId", property.userId)
+            putExtra("postId", property.postId)
+            putExtra("imageUrls", ArrayList(property.imageUrls))
+            putExtra("title", property.titleitm)
+            putExtra("purpose", property.purpose)
+            putExtra("description", property.description)
+            putExtra("contact", property.contact)
+            putExtra("postedDateTime", property.postedDateTime)
+        }
+        startActivity(intent)*/
+
+        PropertyNavigationUtil.openPropertyDetails(requireContext(), property)
     }
 
     override fun onDestroyView() {

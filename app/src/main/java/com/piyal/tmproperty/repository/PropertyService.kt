@@ -494,7 +494,7 @@ class PropertyService(private val firestore: FirebaseFirestore, private val stor
         )
     }
 
-    suspend fun getPostData(postId: String): PropertyData {
+    /*suspend fun getPostData(postId: String): PropertyData {
         return try {
             val documentSnapshot = firestore.collection("Properties").document(postId).get().await()
 
@@ -512,7 +512,8 @@ class PropertyService(private val firestore: FirebaseFirestore, private val stor
 
                 // Retrieve and parse other properties as needed
 
-                PropertyData(type, purpose, price, bed, bath, square, location, title, description, contact, postId,postedDateTime,
+                PropertyData(type, purpose, price, bed, bath, square, location,
+                    title, description, contact, postId,postedDateTime,
                     emptyList())
             } else {
                 // Handle the case when the document does not exist
@@ -521,6 +522,139 @@ class PropertyService(private val firestore: FirebaseFirestore, private val stor
         } catch (e: Exception) {
             // Handle exceptions here
             throw Exception("Failed to retrieve property data: ${e.message}")
+        }
+    }*/
+
+
+        suspend fun getPropertyDetails(postId: String): Property {
+            return try {
+                val documentSnapshot = firestore.collection("Properties")
+                    .document(postId)
+                    .get()
+                    .await()
+
+                if (documentSnapshot.exists()) {
+                    val imageUrlList = documentSnapshot.get("imageUrls") as? List<String>
+                    val imageUrl = imageUrlList?.firstOrNull()
+                    val titleBed = "Bed:"
+                    val titleBedNumber = documentSnapshot.getString("bed") ?: ""
+                    val titleBath = "Bath:"
+                    val titleBathNumber = documentSnapshot.getString("bath") ?: ""
+                    val titleSquare = "Sqft:"
+                    val titleSquareNumber = documentSnapshot.getString("square") ?: ""
+                    val addressitm = documentSnapshot.getString("location") ?: ""
+                    val itemType = documentSnapshot.getString("type") ?: ""
+                    val taka = "BDT"
+                    val tvPrice = documentSnapshot.getString("price") ?: ""
+                    val imgBed = R.drawable.ic_bedd
+                    val imgBath = R.drawable.ic_bath
+                    val imgSqure = R.drawable.ic_square
+                    val userId = documentSnapshot.getString("userId") ?: ""
+                    val titleitm = documentSnapshot.getString("title") ?: ""
+                    val purpose = documentSnapshot.getString("purpose") ?: ""
+                    val description = documentSnapshot.getString("description") ?: ""
+                    val contact = documentSnapshot.getString("contact") ?: ""
+                    val postedDateTime = documentSnapshot.getString("postedDateTime") ?: ""
+
+                    imageUrl?.let {
+                        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(it)
+                        Property(
+                            titleBed, titleBedNumber, titleBath, titleBathNumber, titleSquare,
+                            titleSquareNumber, addressitm, itemType, taka, tvPrice, storageRef,
+                            imgBed, imgBath, imgSqure, userId, postId, titleitm, purpose,
+                            description, contact, postedDateTime, imageUrlList.orEmpty()
+                        )
+                    } ?: throw Exception("Image URL not found")
+                } else {
+                    throw Exception("Document not found for postId: $postId")
+                }
+            } catch (e: Exception) {
+                // Handle exceptions here
+                e.printStackTrace()
+                throw e // Propagate the exception
+            }
+        }
+
+    /*suspend fun deleteProperty(postId: String) {
+        firestore.collection("Properties").document(postId).delete().await()
+    }
+
+    suspend fun checkIfFavorited(postId: String): Boolean {
+        // Assuming there is a collection named "Favorites" for favorited properties
+        val favoritesCollection = firestore.collection("Favorites")
+        val favoritedDocument = favoritesCollection.document(postId).get().await()
+        return favoritedDocument.exists()
+    }
+
+    suspend fun toggleFavorite(postId: String): Boolean {
+        val favoritesCollection = firestore.collection("Favorites")
+        val favoritedDocument = favoritesCollection.document(postId)
+
+        // Check if the property is already favorited
+        val isFavorited = favoritedDocument.get().await().exists()
+
+        if (isFavorited) {
+            // If favorited, remove from favorites
+            favoritedDocument.delete().await()
+        } else {
+            // If not favorited, add to favorites
+            val propertyDocument = firestore.collection("Properties").document(postId)
+            val propertyDetails = propertyDocument.get().await().toObject(Property::class.java)
+
+            if (propertyDetails != null) {
+                favoritedDocument.set(propertyDetails).await()
+            }
+        }
+
+        // Return the new favorite status
+        return !isFavorited
+    }*/
+
+     suspend fun checkIfFavorited(currentUserId: String, postId: String): Boolean {
+        return try {
+            val document = firestore.collection("FavoriteList")
+                .document(currentUserId)
+                .collection("Favorites")
+                .document(postId)
+                .get().await()
+
+            document.exists()
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+     suspend fun toggleFavorite(currentUserId: String, postId: String): Boolean {
+        return try {
+            val favoriteRef = firestore.collection("FavoriteList")
+                .document(currentUserId)
+                .collection("Favorites")
+                .document(postId)
+
+            val isFavorited = favoriteRef.get().await().exists()
+
+            if (isFavorited) {
+                favoriteRef.delete().await()
+            } else {
+                val propertyRef = firestore.collection("Properties").document(postId)
+                val propertyDetails = propertyRef.get().await().data
+                if (propertyDetails != null) {
+                    favoriteRef.set(propertyDetails).await()
+                }
+            }
+
+            !isFavorited
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+     suspend fun deleteProperty(postId: String): Boolean {
+        return try {
+            firestore.collection("Properties").document(postId).delete().await()
+            true
+        } catch (e: Exception) {
+            false
         }
     }
 

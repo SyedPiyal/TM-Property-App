@@ -1,12 +1,16 @@
 package com.piyal.tmproperty.ui.apartment_activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.piyal.tmproperty.adapters.FeaturedPropertyAdapter
+import com.piyal.tmproperty.data.Property
 import com.piyal.tmproperty.databinding.ActivityApartmentBinding
+import com.piyal.tmproperty.ui.details_activity.DetailsActivity
+import com.piyal.tmproperty.util.PropertyNavigationUtil
 import com.piyal.tmproperty.util.UiState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,6 +35,7 @@ class ApartmentActivity : AppCompatActivity() {
         // Initialize featuredPropertyAdapter for featured properties
         featuredPropertyAdapter = FeaturedPropertyAdapter(emptyList()) { property ->
             // Handle featured property item click here
+            openPropertyDetails(property)
         }
 
         binding.rvApartment.apply {
@@ -63,6 +68,30 @@ class ApartmentActivity : AppCompatActivity() {
     private fun hideLoading() {
         // Hide loading UI if needed
     }
+    private fun openPropertyDetails(property: Property) {
+        // Handle navigation to property details activity here
+        /*val intent = Intent(this, DetailsActivity::class.java).apply {
+            // Pass property details to DetailsActivity
+            putExtra("bed", property.titleBedNumber)
+            putExtra("bath", property.titleBathNumber)
+            putExtra("square", property.titleSquareNumber)
+            putExtra("address", property.addressitm)
+            putExtra("type", property.itemType)
+            putExtra("price", property.tvPrice)
+            putExtra("userId", property.userId)
+            putExtra("postId", property.postId)
+            putExtra("imageUrls", ArrayList(property.imageUrls))
+            putExtra("title", property.titleitm)
+            putExtra("purpose", property.purpose)
+            putExtra("description", property.description)
+            putExtra("contact", property.contact)
+            putExtra("postedDateTime", property.postedDateTime)
+        }
+        startActivity(intent)*/
+
+        PropertyNavigationUtil.openPropertyDetails(this, property)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

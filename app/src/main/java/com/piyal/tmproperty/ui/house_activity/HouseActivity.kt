@@ -1,10 +1,13 @@
 package com.piyal.tmproperty.ui.house_activity
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.piyal.tmproperty.R
 import com.piyal.tmproperty.adapters.FeaturedPropertyAdapter
 import com.piyal.tmproperty.databinding.ActivityHouseBinding
 import com.piyal.tmproperty.util.UiState
@@ -24,6 +27,9 @@ class HouseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityHouseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
 
         supportActionBar?.title = "House List"
 

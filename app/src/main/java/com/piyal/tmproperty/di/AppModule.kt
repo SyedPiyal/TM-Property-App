@@ -2,6 +2,7 @@ package com.piyal.tmproperty.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.piyal.tmproperty.repository.PropertyRepository
 import com.piyal.tmproperty.repository.PropertyService
 import com.piyal.tmproperty.repository.UserRepository
@@ -33,6 +34,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideFirebaseStorage(): FirebaseStorage {
+        return FirebaseStorage.getInstance()
+    }
+
+    @Provides
+    @Singleton
     fun provideUserService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore): UserService {
         return UserService(firebaseAuth, firestore)
     }
@@ -57,8 +64,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePropertyService(firestore: FirebaseFirestore): PropertyService {
-        return PropertyService(firestore)
+    fun providePropertyService(firestore: FirebaseFirestore,storage: FirebaseStorage): PropertyService {
+        return PropertyService(firestore,storage)
     }
 
     @Provides

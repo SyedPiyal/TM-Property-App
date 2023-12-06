@@ -1,39 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:context=".ui.NavigationActivity">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".NavigationActivity">
 
-        <include layout="@layout/content_navigation" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/appBarLayout"
-        android:background="@color/purple_500"
-        app:elevation="0dp"
         android:theme="@style/Theme.TmProperty.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="#d1bcff"
             app:popupTheme="@style/Theme.TmProperty.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <include layout="@layout/content_navigation"/>
 
 
 
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

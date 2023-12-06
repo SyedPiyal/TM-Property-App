@@ -21,7 +21,7 @@ class HouseViewModel @Inject constructor(private val propertyRepository: Propert
     fun loadHouses() {
         viewModelScope.launch {
             _houseList.value = UiState.Loading
-            _houseList.value = propertyRepository.getFeaturedProperties(listOf("house", "House", "New House", "New house"))
+            _houseList.value = propertyRepository.getFeaturedProperties(listOf("house", "House", "New House", "New house","Home","home","HOME"))
         }
     }
 }

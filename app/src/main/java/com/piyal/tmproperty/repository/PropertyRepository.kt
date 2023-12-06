@@ -18,6 +18,15 @@ class PropertyRepository @Inject constructor(private val propertyService: Proper
             UiState.Failure(e.message)
         }
     }
+    /*suspend fun getPropertyDetails(postId: String): UiState<Property> {
+        return try {
+            val propertyDetails = propertyService.getPropertyDetails(postId)
+            UiState.Success(propertyDetails)
+        } catch (e: Exception) {
+            UiState.Failure(e.message)
+        }
+    }*/
+
 
     suspend fun getFeaturedProperties(types: List<String>): UiState<List<Property>> {
         return try {
@@ -61,11 +70,11 @@ class PropertyRepository @Inject constructor(private val propertyService: Proper
         }
     }
 
-    suspend fun getPostData(postId: String): PropertyData {
+    /*suspend fun getPostData(postId: String): PropertyData {
         return propertyService.getPostData(postId)
-    }
+    }*/
 
-    suspend fun updatePost(
+    /*suspend fun updatePost(
         postId: String,
         type: String,
         purpose: String,
@@ -85,6 +94,62 @@ class PropertyRepository @Inject constructor(private val propertyService: Proper
         } catch (e: Exception) {
             UiState.Failure(e.message ?: "Failed to update property")
         }
+    }*/
+
+
+
+   /* suspend fun deleteProperty(postId: String): UiState<Unit> {
+        return try {
+            // Implement logic to delete property (e.g., call a delete API)
+            propertyService.deleteProperty(postId)
+            UiState.Success(Unit)
+        } catch (e: Exception) {
+            UiState.Failure(e.message)
+        }
+    }*/
+
+    /*suspend fun checkIfFavorited(postId: String): UiState<Boolean> {
+        return try {
+            val isFavorited = propertyService.checkIfFavorited(postId)
+            UiState.Success(isFavorited)
+        } catch (e: Exception) {
+            UiState.Failure(e.message)
+        }
+    }*/
+    /*suspend fun checkIfFavorited(postId: String): Boolean {
+        return try {
+            val isFavorited = propertyService.checkIfFavorited(postId)
+            isFavorited
+        } catch (e: Exception) {
+            throw e
+        }
+    }*/
+
+
+    /*suspend fun toggleFavorite(postId: String): UiState<Boolean> {
+        return try {
+            val newFavoriteStatus = propertyService.toggleFavorite(postId)
+            UiState.Success(newFavoriteStatus)
+        } catch (e: Exception) {
+            UiState.Failure(e.message)
+        }
+    }*/
+
+
+    //new
+    suspend fun getPropertyDetails(postId: String): Property? {
+        return propertyService.getPropertyDetails(postId)
     }
 
+    suspend fun checkIfFavorited(currentUserId: String, postId: String): Boolean {
+        return propertyService.checkIfFavorited(currentUserId, postId)
+    }
+
+    suspend fun toggleFavorite(currentUserId: String, postId: String): Boolean {
+        return propertyService.toggleFavorite(currentUserId, postId)
+    }
+
+    suspend fun deleteProperty(postId: String): Boolean {
+        return propertyService.deleteProperty(postId)
+    }
 }

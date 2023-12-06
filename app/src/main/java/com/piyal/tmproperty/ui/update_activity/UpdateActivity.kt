@@ -12,7 +12,7 @@ import com.piyal.tmproperty.databinding.ActivityUpdateBinding
 
 class UpdateActivity : AppCompatActivity() {
 
-    private val viewModel: UpdateViewModel by viewModels()
+    //private val viewModel: UpdateViewModel by viewModels()
     private lateinit var binding: ActivityUpdateBinding
     private lateinit var postId: String
 
@@ -21,7 +21,7 @@ class UpdateActivity : AppCompatActivity() {
         binding = ActivityUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Update Details"
+        /*supportActionBar?.title = "Update Details"
         postId = intent.getStringExtra("postId") ?: ""
 
         // Set up RecyclerView
@@ -51,10 +51,10 @@ class UpdateActivity : AppCompatActivity() {
         // Handle update button click
         binding.btnUpdate.setOnClickListener {
             updatePost()
-        }
+        }*/
     }
 
-    private fun updatePost() {
+    /*private fun updatePost() {
         val type = binding.etType.text.toString().trim()
         val purpose = binding.etPurpose.text.toString().trim()
         val price = binding.etPrice.text.toString().trim()
@@ -68,5 +68,5 @@ class UpdateActivity : AppCompatActivity() {
 
         // Perform the update operation using ViewModel
         viewModel.updatePost(postId, type, purpose, price, bed, bath, square, location, title, description, contact)
-    }
+    }*/
 }
